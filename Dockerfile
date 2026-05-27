@@ -16,7 +16,7 @@ FROM base AS builder
 COPY . .
 # Generate local Prisma Client
 WORKDIR /app/apps/server
-RUN npx prisma generate
+# RUN npx prisma generate
 # Compile TypeScript backends & frontends
 WORKDIR /app
 RUN npm run build --workspaces
