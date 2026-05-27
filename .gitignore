@@ -1,0 +1,17 @@
+node_modules/
+.env
+.env.local
+.env.production
+.env.development
+.env.staging
+dist/
+build/
+.next/
+out/
+.env.example
+*.log
+.system_generated/
+scratch/
+query_engine-*.dll.node
+/apps/server/src/generated/client/query_engine-*.dll.node
+/apps/server/dist/generated/client/query_engine-*.dll.node

@@ -1,0 +1,31 @@
+{
+  "name": "ai-driven-smart-dining-assistant",
+  "version": "1.0.0",
+  "description": "Full-stack AI-powered premium restaurant application",
+  "private": true,
+  "workspaces": [
+    "apps/web",
+    "apps/server"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=apps/web\" \"npm run dev --workspace=apps/server\"",
+    "build": "npm run build --workspaces --if-present",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:seed": "npm run seed --workspace=apps/server"
+  },
+  "devDependencies": {
+    "@prisma/client": "^5.14.0",
+    "@types/dotenv": "^6.1.1",
+    "accepts": "^1.3.8",
+    "call-bound": "^1.0.4",
+    "concurrently": "^8.2.2",
+    "express": "^5.2.1",
+    "function-bind": "^1.1.2",
+    "get-intrinsic": "^1.3.0",
+    "hasown": "^2.0.3",
+    "negotiator": "^1.0.0",
+    "prisma": "^5.14.0",
+    "typescript": "^6.0.3"
+  }
+}

@@ -1,0 +1,52 @@
+services:
+  # Express Backend Web Service
+  - type: web
+    name: smart-dining-backend
+    runtime: node
+    buildCommand: npm install && npm run build --workspace=apps/server
+    startCommand: npm start --workspace=apps/server
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: smart-dining-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: smart-dining-redis
+          type: redis
+          property: connectionString
+      - key: OPENAI_API_KEY
+        sync: false
+
+  # Next.js Frontend Web Service
+  - type: web
+    name: smart-dining-frontend
+    runtime: node
+    buildCommand: npm install && npm run build --workspace=apps/web
+    startCommand: npm start --workspace=apps/web
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_URL
+        fromService:
+          name: smart-dining-backend
+          type: web
+          property: url
+      - key: NEXT_PUBLIC_WS_URL
+        fromService:
+          name: smart-dining-backend
+          type: web
+          property: url
+
+  # Managed Redis Cache
+  - type: redis
+    name: smart-dining-redis
+    plan: free
+    ipAllowList: []
+
+databases:
+  # Managed PostgreSQL Database
+  - name: smart-dining-db
+    plan: free

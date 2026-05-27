@@ -1,0 +1,142 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+}
+
+enum Role {
+  CUSTOMER
+  STAFF
+  KITCHEN
+  ADMIN
+}
+
+enum SessionStatus {
+  ACTIVE
+  COMPLETED
+}
+
+enum OrderStatus {
+  PENDING
+  PREPARING
+  READY
+  SERVED
+  CANCELLED
+}
+
+enum SenderType {
+  USER
+  AI
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  role      Role     @default(CUSTOMER)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  orders   Order[]
+  sessions Session[]
+
+  @@map("users")
+}
+
+model MenuItem {
+  id                 String   @id @default(cuid())
+  name               String
+  category           String
+  price              Float
+  description        String
+  imageUrl           String   @map("image_url")
+  tags               String[]
+  allergens          String[]
+  available          Boolean  @default(true)
+  popularScore       Int      @default(0) @map("popular_score")
+  complementaryItems String[] @map("complementary_items")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  orderItems OrderItem[]
+  cartItems  CartItem[]
+
+  @@map("menu_items")
+}
+
+model Session {
+  id          String        @id @default(cuid())
+  tableNo     String        @map("table_no")
+  userId      String?       @map("user_id")
+  user        User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  status      SessionStatus @default(ACTIVE)
+  preferences String? // To store user preference tags, allergies, budget and spice levels
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+
+  orders     Order[]
+  cartItems  CartItem[]
+  aiMessages AiMessage[]
+
+  @@map("sessions")
+}
+
+model CartItem {
+  id         String   @id @default(cuid())
+  sessionId  String   @map("session_id")
+  session    Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  menuItemId String   @map("menu_item_id")
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+  quantity   Int      @default(1)
+  notes      String?
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("cart_items")
+}
+
+model Order {
+  id          String      @id @default(cuid())
+  sessionId   String      @map("session_id")
+  session     Session     @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  userId      String?     @map("user_id")
+  user        User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  status      OrderStatus @default(PENDING)
+  totalAmount Float       @map("total_amount")
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+
+  items OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id         String   @id @default(cuid())
+  orderId    String   @map("order_id")
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menuItemId String   @map("menu_item_id")
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Restrict)
+  quantity   Int
+  price      Float
+  notes      String?
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("order_items")
+}
+
+model AiMessage {
+  id        String     @id @default(cuid())
+  sessionId String     @map("session_id")
+  session   Session    @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  sender    SenderType
+  text      String
+  createdAt DateTime   @default(now()) @map("created_at")
+
+  @@map("ai_messages")
+}
