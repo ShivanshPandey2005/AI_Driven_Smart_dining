@@ -4,8 +4,8 @@
   "description": "Express + Socket.io + LangChain backend for AI Driven Smart Dining Assistant",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "tsc && xcopy /s /e /y src\\generated dist\\generated && node dist/index.js",
-    "build": "tsc && xcopy /s /e /y src\\generated dist\\generated",
+    "dev": "tsc && node -e \"const fs = require('fs'); fs.mkdirSync('dist/generated', { recursive: true }); fs.cpSync('src/generated', 'dist/generated', { recursive: true });\" && node dist/index.js",
+    "build": "tsc && node -e \"const fs = require('fs'); fs.mkdirSync('dist/generated', { recursive: true }); fs.cpSync('src/generated', 'dist/generated', { recursive: true });\"",
     "start": "node dist/index.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",

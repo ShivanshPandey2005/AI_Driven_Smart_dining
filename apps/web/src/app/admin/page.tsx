@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useDiningStore, MenuItem } from '../../store/diningStore';
 import { 
   Grid3X3, Sparkles, TrendingUp, Cpu, ToggleLeft, ToggleRight, 
-  BarChart3, RefreshCw, Layers, ShieldAlert, Languages, Check, ArrowRight
+  BarChart3, RefreshCw, Layers, ShieldAlert, Languages, Check, ArrowRight, X
 } from 'lucide-react';
 import api from '../../lib/api';
 
