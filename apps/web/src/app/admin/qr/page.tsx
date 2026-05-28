@@ -130,7 +130,7 @@ export default function QrAdminPage() {
   };
 
   const visibleTables = TABLES.filter((t) =>
-    t.includes(filterQuery.replace(/\D/g, '').padStart(2, '0').slice(-2))
+    filterQuery ? t.includes(filterQuery.replace(/\D/g, '').padStart(2, '0').slice(-2)) : true
   );
 
   return (
