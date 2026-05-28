@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Full-stack AI-powered premium restaurant application",
   "private": true,
+  "engines": {
+    "node": "20.x"
+  },
   "workspaces": [
     "apps/web",
     "apps/server"
