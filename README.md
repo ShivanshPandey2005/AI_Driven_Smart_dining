@@ -2,6 +2,10 @@
 
 An elegant, premium, mobile-first full-stack smart dining platform powered by an orchestrated **8-Agent AI Architecture using LangChain (gpt-4o-mini)**, **Next.js 14 App Router**, **Express**, **Socket.io**, **Redis caching**, and **Prisma PostgreSQL**.
 
+**Live Production Links:**
+- **Admin & QR Dashboard**: [https://ai-driven-smart-dining-web.vercel.app/admin/qr](https://ai-driven-smart-dining-web.vercel.app/admin/qr)
+- **Smart Dining App**: [https://ai-driven-smart-dining-web.vercel.app](https://ai-driven-smart-dining-web.vercel.app)
+- **Live API Endpoint**: `https://ai-driven-smart-dining.onrender.com`
 ---
 
 ## 🏗️ Architecture & Orchestration Flow
