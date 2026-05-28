@@ -30,6 +30,7 @@ COPY --from=builder /app/apps/server/package*.json ./apps/server/
 COPY --from=builder /app/apps/server/dist ./apps/server/dist
 COPY --from=builder /app/apps/server/prisma ./apps/server/prisma
 COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/apps/server/node_modules ./apps/server/node_modules
 
 EXPOSE 5000
 CMD ["node", "apps/server/dist/index.js"]
